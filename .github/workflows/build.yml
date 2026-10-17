@@ -1,0 +1,93 @@
+# 빌드 & 릴리스 자동화
+# - main 푸시 / PR / 수동 실행: 테스트 + exe 빌드 → Actions 탭의 Artifacts 에서 받을 수 있음
+# - v* 태그 푸시 (예: v0.1.0): 위 과정 + GitHub Release '초안(draft)' 자동 생성
+#   → Releases 탭에서 내용 확인 후 직접 Publish 하세요.
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-build.txt
+
+      - name: Install build tools
+        run: python -m pip install -r requirements-build.txt
+
+      - name: Test (fake mounts)
+        run: python tests/test_pipeline.py
+
+      - name: Check tag matches VERSION
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          $v = python -c "from dsinsqt.config import VERSION; print(VERSION)"
+          if ("v$v" -ne "${{ github.ref_name }}") {
+            Write-Error "태그(${{ github.ref_name }})와 dsinsqt/config.py 의 VERSION(v$v)이 다릅니다."
+            exit 1
+          }
+
+      - name: Generate exe version info
+        run: python scripts/make_version_info.py build/version_info.txt
+
+      - name: Build exe
+        run: >-
+          python -m PyInstaller --noconfirm --clean
+          --onefile --windowed --uac-admin
+          --name DSi_NSQT
+          --version-file build/version_info.txt
+          main.py
+
+      - name: SHA256 checksum
+        shell: pwsh
+        run: |
+          $h = (Get-FileHash dist/DSi_NSQT.exe -Algorithm SHA256).Hash.ToLower()
+          "$h  DSi_NSQT.exe" | Out-File -Encoding ascii dist/DSi_NSQT.exe.sha256
+          Get-Content dist/DSi_NSQT.exe.sha256
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DSi_NSQT
+          path: |
+            dist/DSi_NSQT.exe
+            dist/DSi_NSQT.exe.sha256
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: DSi_NSQT
+          path: dist
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          name: DSi Nand Swap Quick Tool ${{ github.ref_name }}
+          body_path: .github/release_body.md
+          generate_release_notes: true
+          files: |
+            dist/DSi_NSQT.exe
+            dist/DSi_NSQT.exe.sha256

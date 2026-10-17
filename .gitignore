@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.spec
+.venv/
+venv/
+.pytest_cache/
+
+# 절대 커밋하지 말 것: 낸드 덤프 / 펌웨어 / 제3자 바이너리
+*.bin
+*.bin.sha1
+*.bak
+*.tmd
+*.zip
+*.img
+osfmount*.exe
+ninfs-*.exe
+
+# 로그에는 사용자 이름/기기 고유 폴더명이 들어갈 수 있음
+*.log
