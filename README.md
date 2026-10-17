@@ -43,9 +43,6 @@ python main.py
 
 :: exe 빌드 → dist\DSi_NSQT.exe
 build.bat
-
-:: 테스트 (가짜 마운트로 전체 흐름 검증, Windows 도구 불필요)
-python tests\test_pipeline.py
 ```
 
 ## 문제 해결
@@ -69,8 +66,11 @@ dsinsqt/winutil.py      Windows API (속성, 레지스트리, UAC)
 ```
 
 ## 라이선스
-이 프로젝트의 소스 코드는 [MIT License](LICENSE) 입니다. ninfs, WinFsp, OSFMount, Unlaunch, 닌텐도 펌웨어 등
+이 프로젝트의 소스 코드는 [MIT License](LICENSE) 입니다. ninfs, WinFsp, OSFMount, Unlaunch, 펌웨어 등
 제3자 항목은 포함되어 있지 않으며 각자의 라이선스를 따릅니다. 자세한 내용은 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 를 참고해주세요.
 
 ## 면책
 본 패치의 설치 및 사용은 사용자의 판단과 책임하에 이루어집니다. 패치 적용 과정 또는 적용 이후 발생하는 오류, 데이터 손실 및 기타 불이익에 대하여 제작자는 책임을 지지 않습니다.
+
+## 그 외
+본 패치 프로그램은 AI의 도움을 받아 제작되었습니다.
