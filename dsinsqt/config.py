@@ -7,7 +7,9 @@ APP_ID = "Dsi_NSQT"
 EXE_NAME = "DSi_NSQT"
 VERSION = "0.1.0"
 
-USER_AGENT = f"{APP_ID}/{VERSION} (+https://github.com/)"
+REPO_URL = "https://github.com/Pancat-Silly/DSi_NandSwapQuickTool"
+
+USER_AGENT = f"{APP_ID}/{VERSION} (+{REPO_URL})"
 
 # --- 안내용 링크 -------------------------------------------------------------
 SAFENANDMANAGER_URL = "https://github.com/DS-Homebrew/SafeNANDManager/releases/latest"
