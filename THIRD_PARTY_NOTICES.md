@@ -10,7 +10,6 @@
 | OSFMount | PassMark Software | 프리웨어 (독점 라이선스, 재배포 불가로 간주) | https://www.osforensics.com/tools/mount-disk-images.html |
 | SafeNANDManager | DS-Homebrew (zoogie/dumpTool 포크) | 저장소의 라이선스 확인 | https://github.com/DS-Homebrew/SafeNANDManager |
 | Unlaunch / unlaunch TMD | nocash (Martin Korth) / gbatemp 게시자 | 별도 라이선스 없음 (재배포 허락 불명확) | https://gbatemp.net/attachments/unlaunch-tmd-zip.426330/ |
-| 한글판 DSi 펌웨어/낸드 | Nintendo | 저작권 보호 대상 | archive.org (제3자 업로드) |
 
 ## 빌드 도구
 - Python (PSF License) 과 표준 라이브러리 tkinter (Tcl/Tk: BSD 스타일) 가 exe 에 포함됩니다.

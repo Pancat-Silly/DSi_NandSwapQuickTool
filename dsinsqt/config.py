@@ -5,11 +5,9 @@ APP_NAME = "DSi Nand Swap Quick Tool"
 APP_ID = "Dsi_NSQT"
 # 빌드되는 exe 파일 이름 (확장자 제외) — build.bat / build.yml 의 --name 과 같아야 함
 EXE_NAME = "DSi_NSQT"
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
-REPO_URL = "https://github.com/Pancat-Silly/DSi_NandSwapQuickTool"
-
-USER_AGENT = f"{APP_ID}/{VERSION} (+{REPO_URL})"
+USER_AGENT = f"{APP_ID}/{VERSION} (+https://github.com/)"
 
 # --- 안내용 링크 -------------------------------------------------------------
 SAFENANDMANAGER_URL = "https://github.com/DS-Homebrew/SafeNANDManager/releases/latest"

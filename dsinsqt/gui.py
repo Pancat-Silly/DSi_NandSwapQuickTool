@@ -10,6 +10,7 @@ from tkinter import filedialog, messagebox, ttk
 from tkinter.scrolledtext import ScrolledText
 
 from . import config, tools, winutil
+from .guide_view import BANNER_BG, BANNER_BORDER, GUIDES, GuideWindow, book_icon
 from .swapper import SwapOptions, NandSwapper
 
 WARNING_TEXT = (
@@ -111,6 +112,22 @@ class App(tk.Tk):
                    command=lambda: winutil.open_url(config.SAFENANDMANAGER_URL)).pack(
             side="right", padx=10, pady=6)
 
+        # 가이드 배너 (각 버튼은 새 창으로 가이드를 연다)
+        gbanner = tk.Frame(self, bg=BANNER_BG, highlightbackground=BANNER_BORDER, highlightthickness=1)
+        gbanner.pack(fill="x", padx=10, pady=(0, 5))
+        book_icon(gbanner, 28).pack(side="left", padx=(12, 8), anchor="n", pady=8)
+        self._guide_windows = {}
+        for g in reversed(GUIDES):  # side="right" 라서 역순으로 넣어야 ①, ② 순서로 보임
+            ttk.Button(gbanner, text=g.button_text, command=lambda g=g: self.open_guide(g)).pack(
+                side="right", padx=(0, 10), pady=6)
+        gtext = tk.Frame(gbanner, bg=BANNER_BG)
+        gtext.pack(side="left", fill="x", expand=True, pady=6)
+        tk.Label(gtext, text="가이드", bg=BANNER_BG, fg="#0a3069", anchor="w",
+                 font=("Malgun Gothic", 9, "bold") if winutil.IS_WINDOWS else ("TkDefaultFont", 10, "bold")
+                 ).pack(anchor="w")
+        tk.Label(gtext, text="처음이라면 ① → 패치 → ② 순서로 진행하세요.",
+                 bg=BANNER_BG, fg="#0a3069", anchor="w").pack(anchor="w")
+
         # 1. 필수 도구
         f1 = ttk.LabelFrame(self, text=" 1. 필수 도구 ")
         f1.pack(fill="x", **pad)
@@ -207,6 +224,16 @@ class App(tk.Tk):
         self.log_box = ScrolledText(self, height=12, state="disabled", wrap="word",
                                     font=("Consolas", 9) if winutil.IS_WINDOWS else ("TkFixedFont", 9))
         self.log_box.pack(fill="both", expand=True, padx=10, pady=(0, 10))
+
+    def open_guide(self, guide):
+        """가이드를 새 창으로 연다. 이미 열려 있으면 그 창을 앞으로 가져온다."""
+        win = self._guide_windows.get(guide.key)
+        if win is not None and win.winfo_exists():
+            win.deiconify()
+            win.lift()
+            win.focus_set()
+            return
+        self._guide_windows[guide.key] = GuideWindow(self, guide)
 
     def _link(self, parent, text, url):
         """클릭하면 브라우저로 url 을 여는 하이퍼링크 라벨."""

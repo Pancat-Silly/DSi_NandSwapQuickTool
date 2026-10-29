@@ -12,6 +12,7 @@ python -m PyInstaller --noconfirm --clean ^
   --onefile --windowed --uac-admin ^
   --name DSi_NSQT ^
   --version-file build\version_info.txt ^
+  --add-data "dsinsqt\guides;dsinsqt\guides" ^
   main.py || goto :error
 
 echo.
