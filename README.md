@@ -1,6 +1,6 @@
 # DSi Nand Swap Quick Tool
 
-닌텐도 DSi 낸드 덤프(`nand.bin`)에 한글판 DSi 낸드의 내용을 옮기고 Unlaunch TMD 를 넣는 작업을
+닌텐도 DSi 낸드 덤프(`nand.bin`)에 다른 DSi기기에서 덤프된 낸드의 내용을 옮기는 작업을
 클릭 몇 번으로 자동화하는 Windows 프로그램입니다.
 
 > ## ⚠ 시작하기 전에
